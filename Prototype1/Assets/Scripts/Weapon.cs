@@ -7,28 +7,45 @@ public class Weapon : MonoBehaviour
     public enum WeaponState { Idle, Attacking}
     public WeaponState currentState;
     CapsuleCollider hitCollider;
+
+    [SerializeField]
+    GameObject SwingTrail;
     // Start is called before the first frame update
     void Start()
     {
         hitCollider = GetComponent<CapsuleCollider>();
+        //swingTrail = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        SetParticleVisibility();
     }
 
-    IEnumerator ResetState(float animTime, WeaponState stateToResetTo)
+    void SetParticleVisibility()
     {
-        yield return new WaitForSeconds(animTime);
-        currentState = stateToResetTo;
+        switch (currentState)
+        {
+            case WeaponState.Idle:
+                if (SwingTrail.activeSelf)
+                {
+                    SwingTrail.SetActive(false);
+                }
+                break;
+            case WeaponState.Attacking:
+                if (!SwingTrail.activeSelf)
+                {
+                    SwingTrail.SetActive(true);
+                }
+                break;
+        }
     }
 
-    public void SetWeaponState(WeaponState state, float animTime)
+    
+    public void SetWeaponState(WeaponState state)
     {
         currentState = state;
-        StartCoroutine(ResetState(animTime, WeaponState.Idle));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -36,9 +53,11 @@ public class Weapon : MonoBehaviour
         switch (currentState)
         {
             case WeaponState.Idle:
+                
                 Debug.Log("Idle Weapon Collided");
                 break;
             case WeaponState.Attacking:
+                
                 Debug.Log("Attacking Weapon Collided");
                 break;
         }

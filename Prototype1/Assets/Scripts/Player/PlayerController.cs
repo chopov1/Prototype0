@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         animController = playerSprite.GetComponent<AnimationController>();
+        animController.SetPlayerController(this);
         weaponScript = weaponSprite.GetComponent<Weapon>();
     }
 
@@ -27,29 +28,38 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer();   
         RotatePlayer();
-        CheckForAttack();
     }
 
     // Update is called once per frame
     void Update()
     {
         SetAnimationValues();
+        CheckForAttack();
     }
 
     private void SetAnimationValues()
     {
         animController.SetSpeed(currentSpeed);
     }
-
+    
     private void CheckForAttack()
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
             animController.Attack();
-            weaponScript.SetWeaponState(Weapon.WeaponState.Attacking, animController.GetCurrentAnimTime());
         }
     }
-   
+
+    public void AttackBegin()
+    {
+        weaponScript.SetWeaponState(Weapon.WeaponState.Attacking);
+    }
+
+    public void AttackComplete()
+    {
+        weaponScript.SetWeaponState(Weapon.WeaponState.Idle);
+    }
+
     #region Movement
     private void RotatePlayer()
     {

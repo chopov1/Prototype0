@@ -10,35 +10,47 @@ public class AnimationController : MonoBehaviour
     [SerializeField]
     float MaxSpeed;
 
-    int speedHash, attackHash;
+    int SpeedHash, AttackHash;
+
+    PlayerController playerController;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        speedHash = Animator.StringToHash("Speed");
-        attackHash = Animator.StringToHash("Attack");
+        SpeedHash = Animator.StringToHash("Speed");
+        AttackHash = Animator.StringToHash("isAttacking");
+    }
+
+    public void SetPlayerController(PlayerController pc)
+    {
+        playerController = pc;
     }
 
     // Update is called once per frame
     void Update()
     {
-    }
 
-    public float GetCurrentAnimTime()
-    {
-        return animator.GetCurrentAnimatorStateInfo(1).length;
     }
 
     public void SetSpeed(float speed)
     {
-        animator.SetFloat(speedHash, speed);
+        animator.SetFloat(SpeedHash, speed);
     }
 
     public void Attack()
     {
-        //animator.SetLayerWeight(1, 1);
-        //animator.Play("Slash",1);
-        animator.SetTrigger(attackHash);
+        animator.SetBool(AttackHash, true);
+    }
+
+    public void AttackBegin()
+    {
+        playerController.AttackBegin();
+    }
+
+    public void AttackComplete()
+    {
+        playerController.AttackComplete();
+        animator.SetBool(AttackHash, false);
     }
 
 }

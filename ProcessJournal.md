@@ -1,5 +1,5 @@
 
-# 9/6/23
+# 9/6/23 - Engine 
 
 The prototype I set out to make was a simple combat simulator. I wanted to explore the elements that go into creating a 3D, top down, melee combat system.
 
@@ -9,7 +9,7 @@ After a few hours of getting unreal engine setup with git as my source control, 
 
 I got a basic top down character controller setup in unity, as well as a mixamo character with walking and idle animations. 
 
-# 9/7/23
+# 9/7/23 - Colliders
 
 I dont like how I was handling movement animation, currently it is just a bool.
 I setup a blend tree, after spending half an hour learning about them, that creates a blend between the walk and run animation based on the speed the player is going. 
@@ -27,6 +27,13 @@ I have now reached a point where I have a design decision to make.
 As I am not an animator and I am working with free assets, Im leaning towards the second option. I plan to create a sword slash effect using shader graph, that creates a disc-like shape following the sword. I want to see if I am able to achieve this effect and how it feels. I think I will let this determine which method I take for colliders. My thought is the effect will give more of a visual cue as to where the player can deal damage rather then an invisable box if I go the second route.
 
 I am starting my journey into vfx shader graph
+
+# 9/10/23
+I succesffully implemented the sword fx on the player. I did not choose to use VFX graph, as that needs either HDRP or URP package which I didnt feel was needed. I was able to achieve an effect with unitys regular particle system.
+
+I also re-worked the attack state system. I realized using anim notify events was a much more accurate and performant way to change the state of the weapon. 
+
+I've decided I need to get enemys in the game to make a decision about the colliders. I also find that the FX of the sword doesnt feel the most responsive as if you run while attacking it leaves a large streak behind, instead of highlighting the movement of the sword. I may need to find a more baked way to create this effect.
 
 ## Bugs
 
