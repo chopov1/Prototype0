@@ -53,12 +53,13 @@ public class Weapon : MonoBehaviour
         switch (currentState)
         {
             case WeaponState.Idle:
-                
-                Debug.Log("Idle Weapon Collided");
+               
                 break;
             case WeaponState.Attacking:
-                
-                Debug.Log("Attacking Weapon Collided");
+                if (collision.gameObject.transform.parent.TryGetComponent<DamagablePawn>(out DamagablePawn enemyScript))
+                {
+                    enemyScript.TakeDamage(5);
+                }
                 break;
         }
     }
@@ -68,10 +69,12 @@ public class Weapon : MonoBehaviour
         switch (currentState)
         {
             case WeaponState.Idle:
-                Debug.Log("Idle Weapon Triggered");
                 break;
             case WeaponState.Attacking:
-                Debug.Log("Attacking Weapon Triggered");
+                if (other.gameObject.transform.parent.TryGetComponent<DamagablePawn>(out DamagablePawn enemyScript))
+                {
+                    enemyScript.TakeDamage(5);
+                }
                 break;
         }
     }
